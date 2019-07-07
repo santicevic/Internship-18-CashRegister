@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Modal from "./Modal";
 
 export default class CashRegister extends Component {
     constructor(props){
@@ -8,8 +9,16 @@ export default class CashRegister extends Component {
             itemsInBasket: [
             {id: 1, name: "bread", price: 7.99},
             {id: 2, name: "onion", price: 3.99},
-            {id: 3, name: "sauce", price: 12.99}]
+            {id: 3, name: "sauce", price: 12.99}],
+            modalIsOpen: false
         }
+
+    }
+
+    toggleModal = () => {
+        this.setState(state => ({
+            modalIsOpen: !state.modalIsOpen
+        }));
     }
 
     getTotalPrice = itemsInBasket => {
@@ -39,6 +48,10 @@ export default class CashRegister extends Component {
                     </div>)}
                     <h2>TOTAL: {this.getTotalPrice(this.state.itemsInBasket)}</h2>
                 </div>
+                <button onClick={this.toggleModal}>Open modal</button>
+                <Modal show={this.state.modalIsOpen} onClose={this.toggleModal}>
+                    <input placeholder="search" />
+                </Modal>
             </div>
         )
     }
