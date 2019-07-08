@@ -14,9 +14,7 @@ export default class CashierSelect extends Component {
 
     componentDidMount() {
         fetch("/api/cashiers/all")
-            .then(response => {
-                return response.json()
-            })
+            .then(response =>  response.json())
             .then(data => {
                 this.setState({ cashiers: data, loading: false })
             })
