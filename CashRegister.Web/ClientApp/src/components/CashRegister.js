@@ -31,7 +31,8 @@ export default class CashRegister extends Component {
         let total = 0;
         
         for(let item in itemsInBasket){
-            total += itemsInBasket[item].price
+            const { choosenItem, amount } = itemsInBasket[item];
+            total += amount * choosenItem.priceWithTax;
         }
 
         return total;
@@ -42,6 +43,24 @@ export default class CashRegister extends Component {
         if(event.keyCode === 13){
             this.setState({ modalIsOpen: true });
         }
+    }
+    
+    handleAddItemToBasket = itemToAdd => {
+        const matchingItemInList = this.state.itemsInBasket.filter(item => item.choosenItem.id === itemToAdd.choosenItem.id)
+        if(matchingItemInList.length > 0){
+            const newTotalAmount = itemToAdd.amount + matchingItemInList[0].amount;
+            const basketWithoutItemToAdd = this.state.itemsInBasket.filter(item => item.choosenItem.id !== itemToAdd.choosenItem.id)
+            
+            this.setState({
+                itemsInBasket: [...basketWithoutItemToAdd, { choosenItem: itemToAdd.choosenItem, amount: newTotalAmount }],
+                modalIsOpen: false
+            })
+            return;
+        }
+        this.setState(state => ({
+            itemsInBasket: [...state.itemsInBasket, itemToAdd],
+            modalIsOpen: false
+        }))
     }
 
     render() {
@@ -55,14 +74,14 @@ export default class CashRegister extends Component {
                 <div>
                     <h3>Items:</h3>
                     {this.state.itemsInBasket.map(item => 
-                    <div key={item.id}>
-                        <p>{item.name} {item.price} Amount: {item.amount}</p>
+                    <div key={item.choosenItem.id}>
+                        <p>{item.choosenItem.name} {item.choosenItem.priceWithTax} Amount: {item.amount}</p>
                     </div>)}
                     <h2>TOTAL: {this.getTotalPrice(this.state.itemsInBasket)}</h2>
                 </div>
                 <button onClick={this.toggleModal}>Open modal</button>
                 <Modal show={this.state.modalIsOpen} onClose={this.toggleModal}>
-                    <ItemSearch />
+                    <ItemSearch onAddItemToBasket = {this.handleAddItemToBasket} itemsInBasket = {this.state.itemsInBasket} />
                 </Modal>
             </div>
         )

@@ -19,8 +19,13 @@ export default class ItemSearch extends Component {
         this.setState({ results });
     }
 
-    handleChooseClick = id => {
-        fetch("/api/items/get-by-id/" + id)
+    handleChooseClick = item => {
+        if(this.getMaxAmountOfChoosenItem(item) <= 0){
+            alert("Available amount of this item is 0");
+            return;
+        }
+
+        fetch("/api/items/get-by-id/" + item.id)
         .then(response => response.json())
         .then(choosenItem => this.setState({ choosenItem }))
     }
@@ -33,17 +38,25 @@ export default class ItemSearch extends Component {
         this.setState = () => {};
     }
 
+    getMaxAmountOfChoosenItem = choosenItem => {
+        const { itemsInBasket } = this.props;
+        const matchingItemInCartList = itemsInBasket.filter(item => item.choosenItem.id === choosenItem.id);
+        if(matchingItemInCartList.length > 0){
+            return choosenItem.amountInStock - matchingItemInCartList[0].amount;
+        }
+        return choosenItem.amountInStock;
+    }
+
     render() {
         const { choosenItem, filter, results, amountToAdd } = this.state;
-        console.log(this.props)
         if(choosenItem !== null){
             return(
                 <div>
                     <h2>Name: {choosenItem.name}</h2>
                     <span>Select amount to add: </span>
-                    <input value={amountToAdd} onChange={e => this.handleAmountChange(e)} type="range" min="1" max={choosenItem.amountInStock} />
+                    <input value={amountToAdd} onChange={e => this.handleAmountChange(e)} type="range" min="1" max={this.getMaxAmountOfChoosenItem(this.state.choosenItem)} />
                     <span>{amountToAdd}</span>
-                    <button>Add</button>
+                    <button onClick={() => this.props.onAddItemToBasket({choosenItem, amount: parseInt(amountToAdd, 10)})}>Add</button>
                 </div>
             )
         }
@@ -55,7 +68,7 @@ export default class ItemSearch extends Component {
                 <div key={item.id}>
                     <h3>Name: {item.name}</h3>
                     <p>Price: {item.priceWithTax} kn Amount in stock: {item.amountInStock} Barcode: {item.barcode}</p>
-                    <button onClick={() => this.handleChooseClick(item.id)}>Choose</button>
+                    <button onClick={() => this.handleChooseClick(item)}>Choose</button>
                 </div>)}
             </div>
         )
