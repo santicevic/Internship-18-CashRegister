@@ -31,6 +31,7 @@ namespace CashRegister.Web
             options.UseSqlServer(Configuration.GetConnectionString("CashRegisterContext")));
 
             services.AddScoped<ICashierRepository, CashierRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
 
             services.AddMvc().AddJsonOptions(options =>
             {

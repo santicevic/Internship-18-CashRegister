@@ -11,7 +11,7 @@ namespace CashRegister.Data.Entities.Models
         public float Tax { get; set; }
         public float PriceWithTax { get; set; }
         public string Name { get; set; }
-        public int Barcode { get; set; }
+        public string Barcode { get; set; }
         public ICollection<ItemReceipt> ItemReceipts { get; set; }
     }
 }
