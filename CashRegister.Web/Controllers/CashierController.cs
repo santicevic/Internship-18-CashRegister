@@ -58,13 +58,13 @@ namespace CashRegister.Web.Controllers
             return Forbid();
         }
 
-        [HttpGet("get-by-id")]
-        public IActionResult GetAirportById(int id)
+        [HttpGet("get-by-id/{id}")]
+        public IActionResult GetCashierId(int id)
         {
-            var airport = _cashierRepository.GetCashierById(id);
-            if (airport != null)
+            var cashier = _cashierRepository.GetCashierById(id);
+            if (cashier != null)
             {
-                return Ok(airport);
+                return Ok(cashier);
             }
             return NotFound();
         }

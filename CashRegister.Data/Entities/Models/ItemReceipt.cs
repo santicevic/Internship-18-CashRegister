@@ -11,5 +11,7 @@ namespace CashRegister.Data.Entities.Models
         public Guid ReceiptId { get; set; }
         public Receipt Receipt { get; set; }
         public int Amount { get; set; }
+        public float PriceWithTax { get; set; }
+        public float Tax { get; set; }
     }
 }

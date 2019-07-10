@@ -63,6 +63,52 @@ export default class CashRegister extends Component {
         }))
     }
 
+    handleCheckout = () => {
+        const { cashRegister, cashier } = this.props.location.state;
+        let receipt = {
+            cashRegisterId: cashRegister.id,
+            cashierId: cashier.id,
+            creationTime: new Date()
+        }
+
+        fetch("/api/receipts/add-receipt", {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(receipt)
+        }).then(response => response.json())
+        .then(data => {
+            let itemReceiptsToAdd = []
+
+            for(let item in this.state.itemsInBasket){
+                const { choosenItem, amount } = this.state.itemsInBasket[item];
+                itemReceiptsToAdd.push({
+                    amount,
+                    itemId: choosenItem.id,
+                    receiptId: data.id,
+                    priceWithTax: choosenItem.priceWithTax,
+                    tax: choosenItem.tax
+                })
+            }
+            console.log(itemReceiptsToAdd)
+            fetch("/api/receipts/add-item-receipt", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(itemReceiptsToAdd)
+            }).then(() => {
+                this.setState({
+                    itemsInBasket: [],
+                    modalIsOpen: false
+                })
+            })
+        }).catch(() => alert("Something went wrong :/"))
+    }
+
     render() {
         const { cashRegister, cashier } = this.props.location.state;
         return(
@@ -83,6 +129,7 @@ export default class CashRegister extends Component {
                 <Modal show={this.state.modalIsOpen} onClose={this.toggleModal}>
                     <ItemSearch onAddItemToBasket = {this.handleAddItemToBasket} itemsInBasket = {this.state.itemsInBasket} />
                 </Modal>
+                <button onClick={this.handleCheckout}>Checkout</button>
             </div>
         )
     }

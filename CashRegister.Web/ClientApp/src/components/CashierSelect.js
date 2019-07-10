@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { getAllCashiers } from "../utils"
 
 export default class CashierSelect extends Component {
     constructor(props) {
@@ -13,9 +14,7 @@ export default class CashierSelect extends Component {
     }
 
     componentDidMount() {
-        fetch("/api/cashiers/all")
-            .then(response =>  response.json())
-            .then(data => {
+        getAllCashiers.then(data => {
                 this.setState({ cashiers: data, loading: false })
             })
     }
