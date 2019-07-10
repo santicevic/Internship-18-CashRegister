@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Modal from "./Modal";
 import ItemSearch from "./ItemSearch";
+import { addReceipt, addItemReceipts } from "../utils"
 
 export default class CashRegister extends Component {
     constructor(props){
@@ -8,7 +9,8 @@ export default class CashRegister extends Component {
 
         this.state={
             itemsInBasket: [],
-            modalIsOpen: false
+            modalIsOpen: false,
+            receiptId: null
         }
 
     }
@@ -71,14 +73,7 @@ export default class CashRegister extends Component {
             creationTime: new Date()
         }
 
-        fetch("/api/receipts/add-receipt", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(receipt)
-        }).then(response => response.json())
+        addReceipt(receipt)
         .then(data => {
             let itemReceiptsToAdd = []
 
@@ -92,24 +87,20 @@ export default class CashRegister extends Component {
                     tax: choosenItem.tax
                 })
             }
-            console.log(itemReceiptsToAdd)
-            fetch("/api/receipts/add-item-receipt", {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json",
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(itemReceiptsToAdd)
-            }).then(() => {
+            
+            addItemReceipts(itemReceiptsToAdd)
+            .then(() => {
                 this.setState({
                     itemsInBasket: [],
-                    modalIsOpen: false
+                    modalIsOpen: false,
+                    receiptId: data.id
                 })
             })
         }).catch(() => alert("Something went wrong :/"))
     }
 
     render() {
+        console.log(this.state);
         const { cashRegister, cashier } = this.props.location.state;
         return(
             <div>

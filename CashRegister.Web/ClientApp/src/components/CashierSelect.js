@@ -14,50 +14,11 @@ export default class CashierSelect extends Component {
     }
 
     componentDidMount() {
-        getAllCashiers.then(data => {
-                this.setState({ cashiers: data, loading: false })
-            })
+        getAllCashiers().then(data => {this.setState({ cashiers: data, loading: false })})
     }
 
     handleInputChange = e => {
         this.setState({ nameInputValue: e.target.value });
-    }
-
-    handleSubmit = () => {
-        fetch("/api/cashiers/add", {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name: this.state.nameInputValue })
-        }).then(() => {
-            fetch("/api/cashiers/all")
-                .then(response => {
-                    return response.json()
-                })
-                .then(data => {
-                    this.setState({ cashiers: data, loading: false })
-                })
-        }).catch(() => alert("Something went wrong :/"))
-    }
-
-    handleDelete = id => {
-        fetch(`/api/cashiers/delete/${id}`, {
-            method: "DELETE",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        }).then(() => {
-            fetch("/api/cashiers/all")
-                .then(response => {
-                    return response.json()
-                })
-                .then(data => {
-                    this.setState({ cashiers: data, loading: false })
-                })
-        }).catch(() => alert("Something went wrong :/"))
     }
 
     render() {
@@ -72,14 +33,9 @@ export default class CashierSelect extends Component {
                         <h3>Cashier:</h3>
                         <h1>{cashier.name}</h1>
                         <h5>{cashier.id}</h5>
-                        <button onClick={(() => this.handleDelete(cashier.id))}>Delete</button>
                         <Link to={{ pathname: "/cash-register", state: { cashRegister, cashier } }}>Choose</Link>
                     </div>
                 )}
-                <h3>Add new cashier:</h3>
-                <label>Name: </label>
-                <input type="text" value={this.state.nameInputValue} onChange={this.handleInputChange} />
-                <button onClick={this.handleSubmit}>Submit</button>
             </div>
         )
     }
