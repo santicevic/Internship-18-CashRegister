@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import Modal from "./Modal";
 import ItemSearch from "./ItemSearch";
-import { addReceipt, addItemReceipts } from "../utils"
+import { addReceipt, addItemReceipts, getItemReceipts } from "../utils";
+import { PrintTool } from "react-print-tool";
+import ReceiptPrint from "./ReceiptPrint"
 
 export default class CashRegister extends Component {
     constructor(props){
@@ -9,10 +11,8 @@ export default class CashRegister extends Component {
 
         this.state={
             itemsInBasket: [],
-            modalIsOpen: false,
-            receiptId: null
+            modalIsOpen: false
         }
-
     }
     
     componentDidMount() {
@@ -66,6 +66,11 @@ export default class CashRegister extends Component {
     }
 
     handleCheckout = () => {
+        if(this.state.itemsInBasket.length < 1){
+            alert("Nothing to add!")
+            return;
+        }
+
         const { cashRegister, cashier } = this.props.location.state;
         let receipt = {
             cashRegisterId: cashRegister.id,
@@ -92,16 +97,20 @@ export default class CashRegister extends Component {
             .then(() => {
                 this.setState({
                     itemsInBasket: [],
-                    modalIsOpen: false,
-                    receiptId: data.id
+                    modalIsOpen: false
+                })
+
+                getItemReceipts(data.id)
+                .then(itemReceipts => {
+                    PrintTool.printFromReactComponent(<ReceiptPrint itemReceipts={itemReceipts} />);
                 })
             })
         }).catch(() => alert("Something went wrong :/"))
     }
 
     render() {
-        console.log(this.state);
         const { cashRegister, cashier } = this.props.location.state;
+
         return(
             <div>
                 <div>

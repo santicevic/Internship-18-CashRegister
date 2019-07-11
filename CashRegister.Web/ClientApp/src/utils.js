@@ -21,3 +21,7 @@ export const addItemReceipts = itemReceipt =>
         },
         body: JSON.stringify(itemReceipt)
     })
+
+export const getItemReceipts = itemId =>
+    fetch("/api/receipts/get-item-receipts-by-receipt-id/" + itemId)
+    .then(response => response.json())
