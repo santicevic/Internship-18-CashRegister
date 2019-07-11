@@ -5,7 +5,7 @@ const searchAPI = filter => fetch("/api/items/filter/" + filter).then(response =
 
 const searchAPIDebounced = AwesomeDebouncePromise(searchAPI, 500);
 
-export default class ItemSearch extends Component {
+export default class ItemAddToBasket extends Component {
     state = {
         filter: "",
         results: [],

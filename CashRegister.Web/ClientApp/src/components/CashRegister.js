@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Modal from "./Modal";
-import ItemSearch from "./ItemSearch";
+import ItemAddToBasket from "./ItemAddToBasket";
 import { addReceipt, addItemReceipts, getItemReceipts } from "../utils";
 import { PrintTool } from "react-print-tool";
 import ReceiptPrint from "./ReceiptPrint"
@@ -127,7 +127,7 @@ export default class CashRegister extends Component {
                 </div>
                 <button onClick={this.toggleModal}>Open modal</button>
                 <Modal show={this.state.modalIsOpen} onClose={this.toggleModal}>
-                    <ItemSearch onAddItemToBasket = {this.handleAddItemToBasket} itemsInBasket = {this.state.itemsInBasket} />
+                    <ItemAddToBasket onAddItemToBasket = {this.handleAddItemToBasket} itemsInBasket = {this.state.itemsInBasket} />
                 </Modal>
                 <button onClick={this.handleCheckout}>Checkout</button>
             </div>
