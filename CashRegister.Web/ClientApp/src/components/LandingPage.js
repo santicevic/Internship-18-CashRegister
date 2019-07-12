@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Modal from "./Modal";
+import AddItem from "./AddItem";
+import LookupItems from "./LookupItems";
+import LookupReceipts from "./LookupReceipts";
 
 export default class LandingPage extends Component{
     constructor(props){
@@ -8,7 +11,8 @@ export default class LandingPage extends Component{
 
         this.state={
             addItemModalIsOpen: false,
-            lookupItemModalIsOpen: false
+            lookupItemModalIsOpen: false,
+            lookupReceiptModalIsOpen: false
         }
     }
 
@@ -20,20 +24,29 @@ export default class LandingPage extends Component{
         this.setState(state => ({ lookupItemModalIsOpen: !state.lookupItemModalIsOpen }));
     }
 
+    toggleLookupReceiptModal = () => {
+        this.setState(state => ({ lookupReceiptModalIsOpen: !state.lookupReceiptModalIsOpen}))
+    }
+
     render() {
-        const { lookupItemModalIsOpen, addItemModalIsOpen } = this.state;
+        const { lookupItemModalIsOpen, lookupReceiptModalIsOpen, addItemModalIsOpen } = this.state;
 
         return(
             <div>
                 <Link to={{pathname: "/cash-register-select"}}>Pick cash register and employee</Link>
                 <div>
                     <button onClick={this.toggleAddItemModal}>Add item</button>
-                    <h1>NABAVA STIGLA, EDIT ITEM</h1>
-                    <h1>POPIS RACUNA</h1>
+                    <button onClick={this.toggleLookupItemModal}>Lookup items</button>
+                    <button onClick={this.toggleLookupReceiptModal}>Lookup  receipts</button>
                 </div>
-                <Modal show={lookupItemModalIsOpen} onClose={this.toggleLookupModal}></Modal>
+                <Modal show={lookupItemModalIsOpen} onClose={this.toggleLookupItemModal}>
+                    <LookupItems />
+                </Modal>
                 <Modal show={addItemModalIsOpen} onClose={this.toggleAddItemModal}>
-
+                    <AddItem onItemSubmit={this.toggleAddItemModal} />
+                </Modal>
+                <Modal show={lookupReceiptModalIsOpen} onClose={this.toggleLookupReceiptModal}>
+                    <LookupReceipts />
                 </Modal>
             </div>
         )

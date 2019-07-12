@@ -42,16 +42,50 @@ namespace CashRegister.Domain.Repositories.Implementations
             return true;
         }
 
+        public bool RestockItem(Item restockedItem)
+        {
+            var itemToRestock = _context.Items.Find(restockedItem.Id);
+
+            if(itemToRestock == null || itemToRestock.AmountInStock >= restockedItem.AmountInStock)
+            {
+                return false;
+            }
+
+            itemToRestock.AmountInStock = restockedItem.AmountInStock;
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool ValidateAndReduceAmountInStock(ItemReceipt itemReceiptToValidate)
+        {
+            var itemToReduceStockAmountTo = _context.Items.Find(itemReceiptToValidate.ItemId);
+            if(itemToReduceStockAmountTo == null)
+            {
+                return false;
+            }
+
+            if(itemToReduceStockAmountTo.AmountInStock < itemReceiptToValidate.Amount || itemToReduceStockAmountTo.PriceWithTax != itemReceiptToValidate.PriceWithTax)
+            {
+                return false;
+            }
+
+            itemToReduceStockAmountTo.AmountInStock -= itemReceiptToValidate.Amount;
+            _context.SaveChanges();
+            return true;
+        }
+
         public bool EditItem(Item editedItem)
         {
             var itemToEdit = _context.Items.Find(editedItem.Id);
 
-            if (itemToEdit == null)
+            if (itemToEdit == null || editedItem.Tax != 5 && editedItem.Tax != 25)
+            {
                 return false;
+            }
 
             itemToEdit.PriceWithTax = editedItem.PriceWithTax;
             itemToEdit.Tax = editedItem.Tax;
-            itemToEdit.AmountInStock = editedItem.AmountInStock;
+            itemToEdit.Barcode = editedItem.Barcode;
 
             _context.SaveChanges();
             return true;

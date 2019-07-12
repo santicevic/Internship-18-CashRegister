@@ -36,6 +36,18 @@ namespace CashRegister.Web.Controllers
             return Forbid();
         }
 
+        [HttpPost("restock")]
+        public IActionResult RestockItem(Item restockedItem)
+        {
+            var wasRestockSuccessful = _itemRepository.RestockItem(restockedItem);
+
+            if (wasRestockSuccessful)
+            {
+                return Ok();
+            }
+            return Forbid();
+        }
+
         [HttpPost("edit")]
         public IActionResult EditItem(Item editedItem)
         {

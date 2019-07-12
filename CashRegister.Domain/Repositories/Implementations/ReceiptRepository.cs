@@ -29,6 +29,11 @@ namespace CashRegister.Domain.Repositories.Implementations
             return _context.Receipts.ToList();
         }
 
+        public List<Receipt> GetNextTenReceipts(int refPoint)
+        {
+            return _context.Receipts.Skip(refPoint).Take(10).ToList();
+        }
+
         public Receipt GetReceiptById(Guid id)
         {
             return _context.Receipts.Find(id);

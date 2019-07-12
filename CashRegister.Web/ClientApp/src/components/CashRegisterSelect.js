@@ -1,17 +1,26 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { getAllCashRegisters } from "../utils";
 
 export default class CashRegisterSelect extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            cashRegisters: [{id:1},{id:2},{id:3},{id:4}],
-            loading: false
+            cashRegisters: [],
+            loading: true
         }
     }
 
+    componentDidMount() {
+        getAllCashRegisters().then(data => {this.setState({ cashRegisters: data, loading: false })})
+    }
+
     render () {
+        if(this.state.loading){
+            return <h1>Loading...</h1>
+        }
+        
         return(
             <div>
                 {this.state.cashRegisters.map(cashRegister => 

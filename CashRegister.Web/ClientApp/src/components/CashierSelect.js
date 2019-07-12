@@ -8,17 +8,12 @@ export default class CashierSelect extends Component {
 
         this.state = {
             cashiers: [],
-            loading: true,
-            nameInputValue: ""
+            loading: true
         }
     }
 
     componentDidMount() {
         getAllCashiers().then(data => {this.setState({ cashiers: data, loading: false })})
-    }
-
-    handleInputChange = e => {
-        this.setState({ nameInputValue: e.target.value });
     }
 
     render() {

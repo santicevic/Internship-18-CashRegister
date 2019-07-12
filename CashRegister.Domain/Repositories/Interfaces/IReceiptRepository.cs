@@ -10,5 +10,6 @@ namespace CashRegister.Domain.Repositories.Interfaces
         List<Receipt> GetAllReceipts();
         Receipt AddReceipt(Receipt receiptToAdd);
         Receipt GetReceiptById(Guid id);
+        List<Receipt> GetNextTenReceipts(int refPoint);
     }
 }

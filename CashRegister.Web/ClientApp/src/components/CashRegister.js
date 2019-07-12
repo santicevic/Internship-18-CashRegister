@@ -94,7 +94,12 @@ export default class CashRegister extends Component {
             }
             
             addItemReceipts(itemReceiptsToAdd)
-            .then(() => {
+            .then(response => response.json())
+            .then(itemsNotAdded => {
+                if(itemsNotAdded.length > 0){
+                    alert("Some items were not processed correctly, please double check the receipt!")
+                }
+
                 this.setState({
                     itemsInBasket: [],
                     modalIsOpen: false

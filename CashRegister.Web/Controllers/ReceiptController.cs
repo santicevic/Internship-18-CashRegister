@@ -13,13 +13,15 @@ namespace CashRegister.Web.Controllers
     [ApiController]
     public class ReceiptController : ControllerBase
     {
-        public ReceiptController(IReceiptRepository receiptRepository, IItemReceiptRepository itemReceiptRepository)
+        public ReceiptController(IReceiptRepository receiptRepository, IItemReceiptRepository itemReceiptRepository, IItemRepository itemRepository)
         {
             _receiptRepository = receiptRepository;
             _itemReceiptRepository = itemReceiptRepository;
+            _itemRepository = itemRepository;
         }
         private readonly IReceiptRepository _receiptRepository;
         private readonly IItemReceiptRepository _itemReceiptRepository;
+        private readonly IItemRepository _itemRepository;
 
         [HttpGet("all")]
         public IActionResult GetAllReceipts()
@@ -30,6 +32,7 @@ namespace CashRegister.Web.Controllers
         [HttpPost("add-receipt")]
         public IActionResult AddReceipt(Receipt receiptToAdd)
         {
+           receiptToAdd.CreationTime = DateTime.Now;
            var addedReceipt = _receiptRepository.AddReceipt(receiptToAdd);
 
            return Ok(addedReceipt);
@@ -38,25 +41,35 @@ namespace CashRegister.Web.Controllers
         [HttpPost("add-item-receipt")]
         public IActionResult AddItemReceipt(List<ItemReceipt> itemReceiptsToAdd)
         {
-            foreach(var itemReceipt in itemReceiptsToAdd)
-            {
-                _itemReceiptRepository.AddItemReceipt(itemReceipt);
-            }
+            var itemReceiptsNotAdded = new List<ItemReceipt>();
 
-            return Ok();
+            foreach (var itemReceipt in itemReceiptsToAdd)
+            {
+                var wasReduceSuccessful = _itemRepository.ValidateAndReduceAmountInStock(itemReceipt);
+
+                if (wasReduceSuccessful)
+                {
+                    _itemReceiptRepository.AddItemReceipt(itemReceipt);
+                }
+                else
+                {
+                    itemReceiptsNotAdded.Add(itemReceipt);
+                }
+            }
+            
+            return Ok(itemReceiptsNotAdded);
         }
 
-        [HttpGet("get-receipt-by-id/{id}")]
-        public IActionResult GetAirportById(Guid id)
+        [HttpGet("get-item-receipts-by-receipt-id/{id}")]
+        public IActionResult GetItemReceiptsById(Guid id)
         {
-            var receipt = _receiptRepository.GetReceiptById(id);
-            var itemReceipts = _itemReceiptRepository.GetItemReceiptsByReceiptId(id);
+            return Ok(_itemReceiptRepository.GetItemReceiptsByReceiptId(id));
+        }
 
-            if (receipt != null)
-            {
-                return Ok(new { receipt, itemReceipts });
-            }
-            return NotFound();
+        [HttpGet("get-next-ten-receipts/{refPoint}")]
+        public IActionResult GetNextTenReceipts(int refPoint)
+        {
+            return Ok(_receiptRepository.GetNextTenReceipts(refPoint));
         }
     }
 }

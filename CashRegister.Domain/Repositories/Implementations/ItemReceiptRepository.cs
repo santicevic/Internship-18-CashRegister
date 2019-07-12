@@ -1,6 +1,7 @@
 ﻿using CashRegister.Data.Entities;
 using CashRegister.Data.Entities.Models;
 using CashRegister.Domain.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,10 @@ namespace CashRegister.Domain.Repositories.Implementations
 
         public List<ItemReceipt> GetItemReceiptsByReceiptId(Guid id)
         {
-            return _context.ItemReceipts.Where(itemReceipt => itemReceipt.ReceiptId == id).ToList();
+            return _context.ItemReceipts
+                .Include(itemReceipt => itemReceipt.Item)
+                .Include(itemReceipt => itemReceipt.Receipt)
+                .Where(itemReceipt => itemReceipt.ReceiptId == id).ToList();
         }
     }
 }
