@@ -4,14 +4,16 @@ using CashRegister.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CashRegister.Data.Migrations
 {
     [DbContext(typeof(CashRegisterContext))]
-    partial class CashRegisterContextModelSnapshot : ModelSnapshot
+    [Migration("20190714164525_SeedData")]
+    partial class SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -107,7 +109,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4383294211",
                             Name = "Juha u vrečici",
                             PriceWithTax = 12.99f,
@@ -116,7 +118,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 2,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4383520151",
                             Name = "Kruh didov",
                             PriceWithTax = 6.99f,
@@ -125,7 +127,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 3,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "6201694211",
                             Name = "Choco loco",
                             PriceWithTax = 10.99f,
@@ -134,7 +136,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 4,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4380284111",
                             Name = "Vrečica velika",
                             PriceWithTax = 0.99f,
@@ -143,7 +145,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 5,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4383281055",
                             Name = "Vrečica mala",
                             PriceWithTax = 0.59f,
@@ -152,7 +154,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 6,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4381172991",
                             Name = "Brod na napuhivanje",
                             PriceWithTax = 123.99f,
@@ -161,7 +163,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 7,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "8821230211",
                             Name = "Poli parizer",
                             PriceWithTax = 6.99f,
@@ -170,7 +172,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 8,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4389928510",
                             Name = "Majoneza",
                             PriceWithTax = 14.99f,
@@ -179,7 +181,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 9,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "439912411",
                             Name = "Kiseli krastavci",
                             PriceWithTax = 9.99f,
@@ -188,7 +190,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 10,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "8822104211",
                             Name = "Panirani odrezak",
                             PriceWithTax = 29.99f,
@@ -197,7 +199,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 11,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "43119834211",
                             Name = "Tuna konzerva",
                             PriceWithTax = 12.99f,
@@ -206,7 +208,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 12,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4382194211",
                             Name = "Bublica",
                             PriceWithTax = 3.99f,
@@ -215,7 +217,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 13,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4399994211",
                             Name = "Heiniken pivo",
                             PriceWithTax = 8.99f,
@@ -224,7 +226,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 14,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4383292741",
                             Name = "Ožujsko pivo",
                             PriceWithTax = 7.99f,
@@ -233,7 +235,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 15,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4329482911",
                             Name = "IsoSport napitak",
                             PriceWithTax = 7.99f,
@@ -242,7 +244,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 16,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4383299462",
                             Name = "Coca-cola",
                             PriceWithTax = 6.99f,
@@ -251,7 +253,7 @@ namespace CashRegister.Data.Migrations
                         new
                         {
                             Id = 17,
-                            AmountInStock = 25,
+                            AmountInStock = 0,
                             Barcode = "4383729131",
                             Name = "Čaše plastične",
                             PriceWithTax = 29.99f,

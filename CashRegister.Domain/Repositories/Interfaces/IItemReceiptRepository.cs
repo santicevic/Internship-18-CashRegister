@@ -7,7 +7,7 @@ namespace CashRegister.Domain.Repositories.Interfaces
 {
     public interface IItemReceiptRepository
     {
-        void AddItemReceipt(ItemReceipt itemReceiptToAdd);
+        bool AddItemReceipt(ItemReceipt itemReceiptToAdd);
         List<ItemReceipt> GetItemReceiptsByReceiptId(Guid id);
     }
 }

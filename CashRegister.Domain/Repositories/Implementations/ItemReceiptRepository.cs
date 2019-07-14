@@ -17,10 +17,16 @@ namespace CashRegister.Domain.Repositories.Implementations
         }
         private readonly CashRegisterContext _context;
 
-        public void AddItemReceipt(ItemReceipt itemReceiptToAdd)
+        public bool AddItemReceipt(ItemReceipt itemReceiptToAdd)
         {
-            _context.ItemReceipts.Add(itemReceiptToAdd);
-            _context.SaveChanges();
+            if(_context.Items.Any(item => item.Id == itemReceiptToAdd.ItemId) &&
+            _context.Receipts.Any(receipt => receipt.Id == itemReceiptToAdd.ReceiptId))
+            {
+                _context.ItemReceipts.Add(itemReceiptToAdd);
+                _context.SaveChanges();
+                return true;
+            }
+            return false;
         }
 
         public List<ItemReceipt> GetItemReceiptsByReceiptId(Guid id)

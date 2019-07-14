@@ -29,8 +29,11 @@ namespace CashRegister.Web.Controllers
         {
            receiptToAdd.CreationTime = DateTime.Now;
            var addedReceipt = _receiptRepository.AddReceipt(receiptToAdd);
-
-           return Ok(addedReceipt);
+           if(addedReceipt != null)
+           {
+                return Ok(addedReceipt);
+           }
+           return Forbid();
         }
 
         [HttpPost("add-item-receipt")]
