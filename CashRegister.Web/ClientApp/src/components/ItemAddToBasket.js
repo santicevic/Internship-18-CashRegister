@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import AwesomeDebouncePromise from "awesome-debounce-promise";
+import { getItemById } from "../utils";
 
 const searchAPI = filter => fetch("/api/items/filter/" + filter).then(response => response.json());
 
@@ -25,9 +26,12 @@ export default class ItemAddToBasket extends Component {
             return;
         }
 
-        fetch("/api/items/get-by-id/" + item.id)
-        .then(response => response.json())
+        getItemById(item.id)
         .then(choosenItem => this.setState({ choosenItem }))
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        })
     }
 
     handleAmountChange = e => {

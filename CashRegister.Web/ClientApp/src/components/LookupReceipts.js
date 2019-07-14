@@ -17,12 +17,20 @@ export default class LookupReceipts extends Component {
 
     componentDidMount() {
         getNextTenReceipts(0).then(receipts => { this.setState({ receipts: [...receipts], loading: false }) })
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        })
     }
 
     loadNextTenReceipts = () => {
         this.setState({ loading: true });
         getNextTenReceipts(this.state.receipts.length)
-            .then(receipts => { this.setState(state => ({ receipts: [...state.receipts, ...receipts], loading: false })) });
+            .then(receipts => { this.setState(state => ({ receipts: [...state.receipts, ...receipts], loading: false })) })
+            .catch(err => {
+                alert("Something went wrong, error logged to console!");
+                console.log(err);
+            });
     }
 
     closeReceiptDetails = () => {
@@ -53,6 +61,10 @@ export default class LookupReceipts extends Component {
 
         getReceiptsByDate(this.getDateInMiliseconds(this.state.dateInputField))
             .then(receipts => this.setState({ receipts }))
+            .catch(err => {
+                alert("Something went wrong, error logged to console!");
+                console.log(err);
+            })
     }
 
     handleClearFilter = () => {

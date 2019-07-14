@@ -14,6 +14,10 @@ export default class CashierSelect extends Component {
 
     componentDidMount() {
         getAllCashiers().then(data => {this.setState({ cashiers: data, loading: false })})
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        })
     }
 
     render() {

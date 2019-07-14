@@ -14,6 +14,10 @@ export default class CashRegisterSelect extends Component {
 
     componentDidMount() {
         getAllCashRegisters().then(data => {this.setState({ cashRegisters: data, loading: false })})
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        })
     }
 
     render () {

@@ -58,7 +58,10 @@ export default class AddItem extends Component{
             } else{
                 this.props.onItemSubmit();
             }
-        })
+        }).catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        });
     }
 
     render() {

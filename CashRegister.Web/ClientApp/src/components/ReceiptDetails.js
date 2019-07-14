@@ -13,7 +13,11 @@ export default class ReceiptDetails extends Component {
 
     componentWillMount() {
         getItemReceipts(this.props.receipt.id)
-            .then(data => this.setState({ itemReceipts: [...data], loading: false }));
+            .then(data => this.setState({ itemReceipts: [...data], loading: false }))
+            .catch(err => {
+                alert("Something went wrong, error logged to console!");
+                console.log(err);
+            });
     }
 
     getPriceInfo = itemReceipts => {

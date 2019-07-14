@@ -29,6 +29,9 @@ export default class RestockItem extends Component {
             } else {
                 this.props.onItemRestocked();
             }
+        }).catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
         })
     }
 

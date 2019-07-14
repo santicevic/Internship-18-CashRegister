@@ -18,12 +18,20 @@ export default class LookupItems extends Component {
 
     componentDidMount() {
         getNextTenItems(0).then(items => { this.setState({ items: [...items], loading: false }) })
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        })
     }
 
     loadNextTenItems = () => {
         this.setState({ loading: true })
         getNextTenItems(this.state.items.length)
-            .then(items => { this.setState(state => ({ items: [...state.items, ...items], loading: false })) });
+        .then(items => { this.setState(state => ({ items: [...state.items, ...items], loading: false })) })
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        });
     }
 
     handleEditClick = itemId => {
@@ -31,21 +39,36 @@ export default class LookupItems extends Component {
             .then(item => {
                 this.setState({ itemToEdit: item });
             })
+            .catch(err => {
+                alert("Something went wrong, error logged to console!");
+                console.log(err);
+            })
     }
 
     handleItemEdited = () => {
-        this.setState({ itemToEdit: null });
+        getNextTenItems(0).then(items => { this.setState({ items: [...items], itemToEdit: null }) })
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        });
     }
 
     handleRestockClick = itemId => {
         getItemById(itemId)
             .then(item => {
                 this.setState({ itemToRestock: item });
-            })
+            }).catch(err => {
+                alert("Something went wrong, error logged to console!");
+                console.log(err);
+            });
     }
 
     handleItemRestocked = () => {
-        this.setState({ itemToRestock: null });
+        getNextTenItems(0).then(items => { this.setState({ items: [...items], itemToRestock: null }) })
+        .catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
+        });
     }
 
     render() {

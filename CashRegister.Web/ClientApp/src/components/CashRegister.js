@@ -3,7 +3,8 @@ import Modal from "./Modal";
 import ItemAddToBasket from "./ItemAddToBasket";
 import { addReceipt, addItemReceipts, getItemReceipts } from "../utils";
 import { PrintTool } from "react-print-tool";
-import ReceiptPrint from "./ReceiptPrint"
+import ReceiptPrint from "./ReceiptPrint";
+import { Link, Redirect } from "react-router-dom";
 
 export default class CashRegister extends Component {
     constructor(props){
@@ -108,7 +109,13 @@ export default class CashRegister extends Component {
                 getItemReceipts(data.id)
                 .then(itemReceipts => {
                     PrintTool.printFromReactComponent(<ReceiptPrint itemReceipts={itemReceipts} />);
+                }).catch(err => {
+                    alert("Something went wrong, error logged to console!");
+                    console.log(err);
                 })
+            }).catch(err => {
+                alert("Something went wrong, error logged to console!");
+                console.log(err);
             })
         }).catch(() => alert("Something went wrong :/"))
     }
@@ -119,6 +126,7 @@ export default class CashRegister extends Component {
         return(
             <div>
                 <div>
+                    <Link to="/">Home</Link>
                     <h5>Cash register: {cashRegister.id}</h5>
                     <h5>Cashier: {cashier.name}({cashier.id})</h5>
                 </div>
@@ -130,7 +138,7 @@ export default class CashRegister extends Component {
                     </div>)}
                     <h2>TOTAL: {this.getTotalPrice(this.state.itemsInBasket)}</h2>
                 </div>
-                <button onClick={this.toggleModal}>Open modal</button>
+                <button onClick={this.toggleModal}>Look for items</button>
                 <Modal show={this.state.modalIsOpen} onClose={this.toggleModal}>
                     <ItemAddToBasket onAddItemToBasket = {this.handleAddItemToBasket} itemsInBasket = {this.state.itemsInBasket} />
                 </Modal>

@@ -44,6 +44,9 @@ export default class ItemEdit extends Component{
             }else{
                 onItemEdited();
             }
+        }).catch(err => {
+            alert("Something went wrong, error logged to console!");
+            console.log(err);
         })
     }
 
