@@ -19,12 +19,6 @@ namespace CashRegister.Web.Controllers
         }
         private readonly IItemRepository _itemRepository;
 
-        [HttpGet("all")]
-        public IActionResult GetAllItems()
-        {
-            return Ok(_itemRepository.GetAllItems());
-        }
-
         [HttpPost("add")]
         public IActionResult AddItem(Item itemToAdd)
         {
@@ -59,17 +53,6 @@ namespace CashRegister.Web.Controllers
             return Forbid();
         }
 
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteItem(int id)
-        {
-            var wasDeleteSuccessful = _itemRepository.DeleteItem(id);
-            if (wasDeleteSuccessful)
-            {
-                return Ok();
-            }
-            return Forbid();
-        }
-
         [HttpGet("get-by-id/{id}")]
         public IActionResult GetItemById(int id)
         {
@@ -85,6 +68,12 @@ namespace CashRegister.Web.Controllers
         public IActionResult GetFiltered(string filter)
         {
             return Ok(_itemRepository.GetItemsFilterByNameAndBarcode(filter));
+        }
+
+        [HttpGet("get-next-ten-items/{refPoint}")]
+        public IActionResult GetNextTenReceipts(int refPoint)
+        {
+            return Ok(_itemRepository.GetNextTenItems(refPoint));
         }
     }
 }

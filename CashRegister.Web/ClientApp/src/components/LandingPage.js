@@ -5,14 +5,13 @@ import AddItem from "./AddItem";
 import LookupItems from "./LookupItems";
 import LookupReceipts from "./LookupReceipts";
 
-export default class LandingPage extends Component{
-    constructor(props){
+export default class LandingPage extends Component {
+    constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             addItemModalIsOpen: false,
-            lookupItemModalIsOpen: false,
-            lookupReceiptModalIsOpen: false
+            lookupDisplay: null
         }
     }
 
@@ -20,33 +19,32 @@ export default class LandingPage extends Component{
         this.setState(state => ({ addItemModalIsOpen: !state.addItemModalIsOpen }));
     }
 
-    toggleLookupItemModal = () => {
-        this.setState(state => ({ lookupItemModalIsOpen: !state.lookupItemModalIsOpen }));
-    }
-
-    toggleLookupReceiptModal = () => {
-        this.setState(state => ({ lookupReceiptModalIsOpen: !state.lookupReceiptModalIsOpen}))
+    handleChangeDisplay = display => {
+        this.setState({ lookupDisplay: display })
     }
 
     render() {
-        const { lookupItemModalIsOpen, lookupReceiptModalIsOpen, addItemModalIsOpen } = this.state;
+        const { addItemModalIsOpen, lookupDisplay } = this.state;
+        let display = <div></div>
 
-        return(
+        if (lookupDisplay === "items") {
+            display = <LookupItems />
+        }
+        if (lookupDisplay === "receipts") {
+            display = <LookupReceipts />
+        }
+
+        return (
             <div>
-                <Link to={{pathname: "/cash-register-select"}}>Pick cash register and employee</Link>
+                <Link to={{ pathname: "/cash-register-select" }}>Pick cash register and employee</Link>
                 <div>
                     <button onClick={this.toggleAddItemModal}>Add item</button>
-                    <button onClick={this.toggleLookupItemModal}>Lookup items</button>
-                    <button onClick={this.toggleLookupReceiptModal}>Lookup  receipts</button>
+                    <button onClick={() => this.handleChangeDisplay("items")}>Lookup items</button>
+                    <button onClick={() => this.handleChangeDisplay("receipts")}>Lookup  receipts</button>
                 </div>
-                <Modal show={lookupItemModalIsOpen} onClose={this.toggleLookupItemModal}>
-                    <LookupItems />
-                </Modal>
+                {display}
                 <Modal show={addItemModalIsOpen} onClose={this.toggleAddItemModal}>
                     <AddItem onItemSubmit={this.toggleAddItemModal} />
-                </Modal>
-                <Modal show={lookupReceiptModalIsOpen} onClose={this.toggleLookupReceiptModal}>
-                    <LookupReceipts />
                 </Modal>
             </div>
         )

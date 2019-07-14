@@ -24,11 +24,6 @@ namespace CashRegister.Domain.Repositories.Implementations
             return addedReceipt;
         }
 
-        public List<Receipt> GetAllReceipts()
-        {
-            return _context.Receipts.ToList();
-        }
-
         public List<Receipt> GetNextTenReceipts(int refPoint)
         {
             return _context.Receipts.Skip(refPoint).Take(10).ToList();
@@ -37,6 +32,12 @@ namespace CashRegister.Domain.Repositories.Implementations
         public Receipt GetReceiptById(Guid id)
         {
             return _context.Receipts.Find(id);
+        }
+
+        public List<Receipt> GetReceiptByDate(DateTime date)
+        {
+            return _context.Receipts
+                .Where(receipt => receipt.CreationTime.Date == date.Date).ToList();
         }
     }
 }

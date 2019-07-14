@@ -30,18 +30,6 @@ namespace CashRegister.Domain.Repositories.Implementations
             return true;
         }
 
-        public bool DeleteItem(int idOfItemToDelete)
-        {
-            var itemToDelete = _context.Items.Find(idOfItemToDelete);
-
-            if (itemToDelete == null)
-                return false;
-
-            _context.Items.Remove(itemToDelete);
-            _context.SaveChanges();
-            return true;
-        }
-
         public bool RestockItem(Item restockedItem)
         {
             var itemToRestock = _context.Items.Find(restockedItem.Id);
@@ -91,11 +79,6 @@ namespace CashRegister.Domain.Repositories.Implementations
             return true;
         }
 
-        public List<Item> GetAllItems()
-        {
-            return _context.Items.ToList();
-        }
-
         public Item GetItemById(int id)
         {
             return _context.Items.Find(id);
@@ -107,6 +90,11 @@ namespace CashRegister.Domain.Repositories.Implementations
             var filteredByBarcode = _context.Items.Where(item => item.Barcode.Contains(filter));
  
             return filteredByName.Union(filteredByBarcode).ToList();
+        }
+
+        public List<Item> GetNextTenItems(int refPoint)
+        {
+            return _context.Items.Skip(refPoint).Take(10).ToList();
         }
     }
 }

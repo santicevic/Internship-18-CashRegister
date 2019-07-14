@@ -24,49 +24,5 @@ namespace CashRegister.Web.Controllers
         {
             return Ok(_cashierRepository.GetAllCashiers());
         }
-
-        [HttpPost("add")]
-        public IActionResult AddCashier(Cashier cashierToAdd)
-        {
-            var wasAddSuccessful = _cashierRepository.AddCashier(cashierToAdd);
-            if (wasAddSuccessful)
-            {
-                return Ok();
-            }
-            return Forbid();
-        }
-
-        [HttpPost("edit")]
-        public IActionResult EditCashier(Cashier editedCashier)
-        {
-            var wasEditSuccessful = _cashierRepository.EditCashier(editedCashier);
-            if (wasEditSuccessful)
-            {
-                return Ok();
-            }
-            return Forbid();
-        }
-
-        [HttpDelete("delete/{id}")]
-        public IActionResult DeleteCashier(int id)
-        {
-            var wasDeleteSuccessful = _cashierRepository.DeleteCashier(id);
-            if (wasDeleteSuccessful)
-            {
-                return Ok();
-            }
-            return Forbid();
-        }
-
-        [HttpGet("get-by-id/{id}")]
-        public IActionResult GetCashierId(int id)
-        {
-            var cashier = _cashierRepository.GetCashierById(id);
-            if (cashier != null)
-            {
-                return Ok(cashier);
-            }
-            return NotFound();
-        }
     }
 }

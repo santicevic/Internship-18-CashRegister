@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using CashRegister.Data.Entities.Models;
@@ -22,12 +23,6 @@ namespace CashRegister.Web.Controllers
         private readonly IReceiptRepository _receiptRepository;
         private readonly IItemReceiptRepository _itemReceiptRepository;
         private readonly IItemRepository _itemRepository;
-
-        [HttpGet("all")]
-        public IActionResult GetAllReceipts()
-        {
-            return Ok(_receiptRepository.GetAllReceipts());
-        }
 
         [HttpPost("add-receipt")]
         public IActionResult AddReceipt(Receipt receiptToAdd)
@@ -70,6 +65,13 @@ namespace CashRegister.Web.Controllers
         public IActionResult GetNextTenReceipts(int refPoint)
         {
             return Ok(_receiptRepository.GetNextTenReceipts(refPoint));
+        }
+
+        [HttpGet("get-receipt-by-date/{dateInMiliseconds}")]
+        public IActionResult GetReceiptByDate(long dateInMiliseconds)
+        {
+            var date = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddMilliseconds(dateInMiliseconds);
+            return Ok(_receiptRepository.GetReceiptByDate(date));
         }
     }
 }

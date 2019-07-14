@@ -71,3 +71,10 @@ export const getAllCashRegisters = () =>
 export const getNextTenReceipts = refPoint =>
     fetch("/api/receipts/get-next-ten-receipts/" + refPoint)
     .then(response => response.json())
+
+export const getNextTenItems = refPoint =>
+    fetch("/api/items/get-next-ten-items/" + refPoint)
+    .then(response => response.json())
+
+export const getReceiptsByDate = dateinMiliseconds => 
+fetch("/api/receipts/get-receipt-by-date/"+dateinMiliseconds).then(response => response.json())

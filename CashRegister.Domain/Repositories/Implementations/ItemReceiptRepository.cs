@@ -23,11 +23,6 @@ namespace CashRegister.Domain.Repositories.Implementations
             _context.SaveChanges();
         }
 
-        public List<ItemReceipt> GetAllItemReceipts()
-        {
-            return _context.ItemReceipts.ToList();
-        }
-
         public List<ItemReceipt> GetItemReceiptsByReceiptId(Guid id)
         {
             return _context.ItemReceipts

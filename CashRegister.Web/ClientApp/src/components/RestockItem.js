@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { restockItem } from "../utils";
 
-export default class RestockItem extends Component{
-    constructor(props){
+export default class RestockItem extends Component {
+    constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             amountToRestock: 1
         }
     }
@@ -16,27 +16,25 @@ export default class RestockItem extends Component{
     }
 
     handleRestockClick = () => {
-        if(this.state.amountToRestock < 1){
+        if (this.state.amountToRestock < 1) {
             alert("The amount has to be 1 or more!");
             return;
         }
 
         const { item } = this.props;
-        console.log(this.state.amountToRestock);
         item.amountInStock += this.state.amountToRestock;
-        console.log(item.amountInStock);
         restockItem(item).then(response => {
-            if(response.status !== 200){
+            if (response.status !== 200) {
                 alert("Something went wrong");
-            }else{
+            } else {
                 this.props.onItemRestocked();
             }
         })
     }
-    
-    render(){
+
+    render() {
         const { name, amountInStock, priceWithTax } = this.props.item
-        return(
+        return (
             <div>
                 <label>Name: {name}</label><br />
                 <label>Price: {priceWithTax}</label><br />
